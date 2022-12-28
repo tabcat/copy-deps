@@ -3,7 +3,6 @@ import process from 'node:process'
 import { exec } from 'node:child_process'
 import path from 'node:path'
 import util from 'node:util'
-import semver from 'semver'
 import { program } from 'commander'
 
 const copyDependenciesKey = 'copyDependencies'
@@ -160,9 +159,10 @@ for (const name of Object.keys(copyDependencies)) {
         let pack: Pack
         try {
           const json = JSON.parse(stdout).dependencies[name]
-          json.dependencies = { ...json._dependencies, ...json.peerDependencies.filter(semver.satisfies) }
+          json.dependencies = { ...json._dependencies, ...json.peerDependencies }
           pack = json
         } catch (e) {
+          console.error(e)
           throw errors.unexpectedListOutput(name, stdout)
         }
 
