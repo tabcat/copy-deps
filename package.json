@@ -15,8 +15,7 @@
     "lint": "eslint src",
     "format": "prettier -w src && eslint --fix src",
     "build": "tsc && cp ./dist/src/index.js ./bin/dep-sync.js",
-    "prepublishOnly": "npm run build",
-    "test": "c8 -c ./config/.c8rc.json npx mocha --config ./config/.mocharc.json"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
