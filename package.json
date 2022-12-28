@@ -12,7 +12,8 @@
     "./dist/src"
   ],
   "scripts": {
-    "lint": "eslint src test",
+    "lint": "eslint src",
+    "format": "prettier -w src && eslint --fix src",
     "build": "tsc && cp ./dist/src/index.js ./bin/dep-sync.js",
     "prepublishOnly": "npm run build",
     "test": "c8 -c ./config/.c8rc.json npx mocha --config ./config/.mocharc.json"
@@ -32,6 +33,7 @@
     "c8": "^7.12.0",
     "eslint": "^8.26.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-tsdoc": "^0.2.17",
     "mocha": "^10.1.0",
     "prettier": "^2.7.1",
     "prettier-config-standard": "^5.0.0",
