@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/tabcat/copy-deps/compare/v1.1.0...v1.1.1) (2022-12-28)
+
+
+### Bug Fixes
+
+* remove semver mistake ([0797af7](https://github.com/tabcat/copy-deps/commit/0797af7f36b3ed3365ccf1636db25232a37fc0a8))
+
 ## [1.1.0](https://github.com/tabcat/copy-deps/compare/v1.0.0...v1.1.0) (2022-12-28)
 
 
