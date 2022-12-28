@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/tabcat/copy-deps/compare/v1.0.0...v1.1.0) (2022-12-28)
+
+
+### Features
+
+* support dep peerDependencies ([1dd53eb](https://github.com/tabcat/copy-deps/commit/1dd53ebb366c61cfc485067f2f077b5e3ef7d6f3))
+
 ## 1.0.0 (2022-12-28)
 
 
