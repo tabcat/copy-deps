@@ -220,7 +220,7 @@ if (Object.keys(missing).length > 0) {
  * install same versions of packages as dependencies
  */
 const installDeps = (deps: string[], dev = false): string =>
-  `${pm} install ${deps.join(' ')}${dev ? '-D' : ''}`
+  `${pm} install ${deps.join(' ')}${dev ? ' -D' : ''}`
 const cmds: string[] = []
 prod.length > 0 && cmds.push(installDeps(prod))
 dev.length > 0 && cmds.push(installDeps(dev, true))
