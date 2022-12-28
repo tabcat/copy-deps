@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/tabcat/copy-deps/compare/v1.1.1...v1.1.2) (2022-12-28)
+
+
+### Bug Fixes
+
+* space before -D ([66b980b](https://github.com/tabcat/copy-deps/commit/66b980bf87a36f65ad6612dcdd24cbabbb7d85a3))
+
 ## [1.1.1](https://github.com/tabcat/copy-deps/compare/v1.1.0...v1.1.1) (2022-12-28)
 
 

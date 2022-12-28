@@ -1,6 +1,6 @@
 {
   "name": "copy-deps",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "keep dependencies equal with those of another package",
   "type": "module",
   "main": "./dist/src/index.js",
