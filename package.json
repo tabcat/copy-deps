@@ -1,11 +1,11 @@
 {
-  "name": "dep-sync",
+  "name": "copy-deps",
   "version": "1.0.0",
   "description": "keep dependencies equal with those of another package",
   "type": "module",
   "main": "./dist/src/index.js",
   "bin": {
-    "dep-sync": "./bin/dep-sync.js"
+    "copy-deps": "./bin/copy-deps.js"
   },
   "files": [
     "./bin",
@@ -14,19 +14,19 @@
   "scripts": {
     "lint": "eslint src",
     "format": "prettier -w src && eslint --fix src",
-    "build": "tsc && cp ./dist/src/index.js ./bin/dep-sync.js",
+    "build": "tsc && cp ./dist/src/index.js ./bin/copy-deps.js",
     "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tabcat/dep-sync.git"
+    "url": "https://github.com/tabcat/copy-deps.git"
   },
   "author": "tabcat <tabcat00@proton.me>",
   "license": "(MIT OR Apache-2.0)",
   "bugs": {
-    "url": "https://github.com/tabcat/dep-sync/issues"
+    "url": "https://github.com/tabcat/copy-deps/issues"
   },
-  "homepage": "https://github.com/tabcat/dep-sync",
+  "homepage": "https://github.com/tabcat/copy-deps",
   "devDependencies": {
     "@types/mocha": "^10.0.0",
     "c8": "^7.12.0",

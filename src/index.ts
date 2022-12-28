@@ -5,7 +5,7 @@ import path from 'node:path'
 import util from 'node:util'
 import { program } from 'commander'
 
-const syncDependenciesKey = 'syncDependencies'
+const copyDependenciesKey = 'copyDependencies'
 const errors = {
   packageFileImportFail: (packagePath: string, cwd: string) =>
     new Error(
@@ -13,19 +13,19 @@ const errors = {
 packagePath: ${packagePath}
 cwd: ${cwd}`
     ),
-  syncDepsMissing: () =>
-    new Error(`required package.${syncDependenciesKey} field is missing`),
-  syncDepsEmpty: () =>
-    new Error(`required package.${syncDependenciesKey} field is empty`),
+  copyDepsMissing: () =>
+    new Error(`required package.${copyDependenciesKey} field is missing`),
+  copyDepsEmpty: () =>
+    new Error(`required package.${copyDependenciesKey} field is empty`),
   missingPackage: (pack: string) =>
     new Error(
       `package '${pack}' does not exist in dependencies or devDependencies`
     ),
   noDependencies: (pack: Pack) =>
     new Error(`Package '${pack.name}' does not have any dependencies`),
-  duplicateSyncedDeps: (duplicates: Record<string, string[]>) =>
+  duplicateCopiedDeps: (duplicates: Record<string, string[]>) =>
     new Error(
-      `There are two or more packages trying to sync the same dependencies:
+      `There are two or more packages trying to copy the same dependencies:
 ${util.inspect(duplicates)}`
     ),
   unexpectedListOutput: (name: string, stdout: string) =>
@@ -40,7 +40,7 @@ cmd: ${cmd}`
     ),
   packMissing: (name: string) =>
     new Error(
-      `Pack missing for '${name}' from internal map object. Mismatch in syncDeps and retrieved package files.`
+      `Pack missing for '${name}' from internal map object. Mismatch in copyDeps and retrieved package files.`
     ),
   depsMissing: (missing: Record<string, string[]>) =>
     new Error(
@@ -52,7 +52,7 @@ missing: ${util.inspect(missing)}`
 interface Dependencies {
   [key: string]: string
 }
-interface SyncDependencies {
+interface CopyDependencies {
   [key: string]: string[]
 }
 interface Pack {
@@ -60,7 +60,7 @@ interface Pack {
   version: string
   dependencies?: Dependencies
   devDependencies?: Dependencies
-  syncDependencies?: SyncDependencies
+  copyDependencies?: CopyDependencies
 }
 interface ExecException extends Error {
   cmd?: string | undefined
@@ -95,20 +95,20 @@ try {
   throw errors.packageFileImportFail(packagePath, cwd)
 }
 
-if (pack[syncDependenciesKey] == null) {
-  throw errors.syncDepsMissing()
+if (pack[copyDependenciesKey] == null) {
+  throw errors.copyDepsMissing()
 }
-const syncDependencies = pack[syncDependenciesKey]
-if (Object.keys(syncDependencies).length === 0) {
-  throw errors.syncDepsEmpty()
+const copyDependencies = pack[copyDependenciesKey]
+if (Object.keys(copyDependencies).length === 0) {
+  throw errors.copyDepsEmpty()
 }
 
 /**
- * check all packages to sync with are installed
+ * check all packages to copy are installed
  */
 const dependencies: Set<string> = new Set()
 const devDependencies: Set<string> = new Set()
-for (const name of Object.keys(syncDependencies)) {
+for (const name of Object.keys(copyDependencies)) {
   if (pack.dependencies?.[name] != null) {
     dependencies.add(name)
   } else if (pack.devDependencies?.[name] != null) {
@@ -122,7 +122,7 @@ for (const name of Object.keys(syncDependencies)) {
  * check for duplicate packages and if positive log error
  */
 const dep2names: Map<string, string[]> = new Map()
-for (const [name, deps] of Object.entries(syncDependencies)) {
+for (const [name, deps] of Object.entries(copyDependencies)) {
   for (const dep of deps) {
     const names = dep2names.get(dep)
 
@@ -137,7 +137,7 @@ const duplicates: { [key: string]: string[] } = Object.fromEntries(
   Array.from(dep2names.entries()).filter(([, names]) => names.length > 1)
 )
 if (Object.keys(duplicates).length > 0) {
-  throw errors.duplicateSyncedDeps(duplicates)
+  throw errors.duplicateCopiedDeps(duplicates)
 }
 
 /**
@@ -146,7 +146,7 @@ if (Object.keys(duplicates).length > 0) {
 const pm = pnpm === true ? 'pnpm' : 'npm'
 const name2pack: Map<string, Pack> = new Map()
 const promises: Array<Promise<void>> = []
-for (const name of Object.keys(syncDependencies)) {
+for (const name of Object.keys(copyDependencies)) {
   const promise = new Promise<Pack>((resolve, reject) =>
     exec(
       `${pm} list --json --long ${name}`,
@@ -188,7 +188,7 @@ const nameAtVersion = (name: string, version: string): string =>
 const missing: Record<string, string[]> = {}
 const prod: string[] = []
 const dev: string[] = []
-for (const [name, deps] of Object.entries(syncDependencies)) {
+for (const [name, deps] of Object.entries(copyDependencies)) {
   const hits = dependencies.has(name) ? prod : dev
   const pack = name2pack.get(name)
 
@@ -243,4 +243,4 @@ try {
   console.error(e)
   throw errors.installFailed(installCmd)
 }
-console.log('syncDependencies have been installed')
+console.log('copyDependencies have been installed')
