@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint src",
     "format": "prettier -w src && eslint --fix src",
-    "build": "tsc && cp ./dist/src/index.js ./bin/copy-deps.js",
+    "build": "tsc && mkdir -p ./bin && cp ./dist/src/index.js ./bin/copy-deps.js",
     "prepublishOnly": "npm run build"
   },
   "repository": {
