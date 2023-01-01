@@ -75,10 +75,15 @@ program
     'path to package.json file',
     path.join(process.cwd(), 'package.json')
   )
+  .option(
+    '--uninstall',
+    'remove dependencies instead of install',
+    false
+  )
   .option('--pnpm', 'use pnpm')
 program.parse()
 
-const { package: packagePath, pnpm } = program.opts()
+const { package: packagePath, uninstall, pnpm } = program.opts()
 const cwd = path.dirname(packagePath)
 
 /**
@@ -219,11 +224,12 @@ if (Object.keys(missing).length > 0) {
 /**
  * install same versions of packages as dependencies
  */
-const installDeps = (deps: string[], dev = false): string =>
-  `${pm} install ${deps.join(' ')}${dev ? ' -D' : ''}`
+const effect = uninstall === true ? 'uninstall' : 'install'
+const effectDeps = (deps: string[], dev = false): string =>
+  `${pm} ${effect} ${deps.join(' ')}${dev ? ' -D' : ''}`
 const cmds: string[] = []
-prod.length > 0 && cmds.push(installDeps(prod))
-dev.length > 0 && cmds.push(installDeps(dev, true))
+prod.length > 0 && cmds.push(effectDeps(prod))
+dev.length > 0 && cmds.push(effectDeps(dev, true))
 const installCmd = cmds.join(' && ')
 console.log(installCmd)
 try {
