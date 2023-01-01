@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/tabcat/copy-deps/compare/v1.1.2...v1.2.0) (2023-01-01)
+
+
+### Features
+
+* uninstall copied deps with flag --uninstall ([3cd5e8d](https://github.com/tabcat/copy-deps/commit/3cd5e8d6914d8421f062a3c8ea3a8c73c55e3591))
+
 ## [1.1.2](https://github.com/tabcat/copy-deps/compare/v1.1.1...v1.1.2) (2022-12-28)
 
 
